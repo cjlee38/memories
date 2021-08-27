@@ -9,17 +9,30 @@ https://docs.microsoft.com/ko-kr/dotnet/architecture/microservices/architect-mic
 BFF : https://metleeha.tistory.com/entry/BFFBackend-for-Frontend-%EB%9E%80
 
 ## service mesh
-https://www.samsungsds.com/kr/insights/service_mesh.html
+삼성sds 서비스메쉬 : https://www.samsungsds.com/kr/insights/service_mesh.html
 
+Istio & 서비스메쉬 : https://twofootdog.tistory.com/78?category=845779
+
+
+-------
 
 # Docker
 
 https://subicura.com/2017/02/10/docker-guide-for-beginners-create-image-and-deploy.html
 https://www.44bits.io/ko/post/almost-perfect-development-environment-with-docker-and-docker-compose
 
+cheatsheet : https://daddyprogrammer.org/tech-news/?board_page=23&vid=6
+
+docker 연습 : https://www.44bits.io/ko/post/easy-deploy-with-docker
 
 -------
 
+# K8s
+쿠버네티스란 : https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/
+
+쿠버네티스 연습 : https://twofootdog.tistory.com/5?category=845779
+
+-------------
 
 # Elasticsearch
 
