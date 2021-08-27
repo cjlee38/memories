@@ -25,6 +25,8 @@ cheatsheet : https://daddyprogrammer.org/tech-news/?board_page=23&vid=6
 
 docker 연습 : https://www.44bits.io/ko/post/easy-deploy-with-docker
 
+docker 실무 : https://doogle.link/%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-docker-%ED%99%9C%EC%9A%A9%EB%B2%95-private-docker-registry-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0/
+
 -------
 
 # K8s
