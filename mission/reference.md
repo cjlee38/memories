@@ -25,6 +25,10 @@ cheatsheet : https://daddyprogrammer.org/tech-news/?board_page=23&vid=6
 
 docker 연습 : https://www.44bits.io/ko/post/easy-deploy-with-docker
 
+docker + docker-compose : https://www.44bits.io/ko/post/almost-perfect-development-environment-with-docker-and-docker-compose
+
+만들면서 이해하는 docker image : https://www.44bits.io/ko/post/how-docker-image-work
+
 docker 실무 : https://doogle.link/%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-docker-%ED%99%9C%EC%9A%A9%EB%B2%95-private-docker-registry-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0/
 
 -------
@@ -34,6 +38,7 @@ docker 실무 : https://doogle.link/%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C-%EC%82%
 
 쿠버네티스 연습 : https://twofootdog.tistory.com/5?category=845779
 
+쿠버네티스 안내서 : https://subicura.com/k8s/guide/#%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3
 -------------
 
 # Elasticsearch
