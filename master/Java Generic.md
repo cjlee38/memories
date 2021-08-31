@@ -9,7 +9,7 @@
 
 ```java
 public class MyList {
-    private final int capacity = 10;
+    private static final int capacity = 10;
     private int size;
     private Object[] array;
 
@@ -45,7 +45,7 @@ public class Main {
 
 ```java
 public class MyStringList {
-    private final int capacity = 10;
+    private static final int capacity = 10;
     private int size;
     private String[] array;
 
@@ -63,7 +63,7 @@ public class MyStringList {
 }
 
 public class MyIntegerList {
-    private final int capacity = 10;
+    private static final int capacity = 10;
     private int size;
     private Integer[] array;
 
@@ -92,7 +92,7 @@ public class MyIntegerList {
 
 ```java
 public class MyList<T> {
-    private final int capacity = 10;
+    private static final int capacity = 10;
     private int size;
     private Object[] array;
 
