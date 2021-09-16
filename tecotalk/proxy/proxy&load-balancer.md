@@ -31,5 +31,6 @@ client는 reverse proxy를 실제 서버라고 생각하여 요청 -> 실제 서
 
 server가 감당이 불가능해질 경우, scale up으로 임시 조치는 가능하지만 너무 많아지면 scale out을 해야 한다.
 
-
+L4 로드밸런싱 : Transport Layer(IP & Port) level에서 로드밸런싱. 즉, 쉽게 생각하면 도메인을 기준으로 로드밸런싱
+L7 로드밸런싱 : Application Layer level에서 로드밸런싱. 간단하게 생각하면 MSA에서 담당하는 서비스에 따라 로드밸런싱
 
