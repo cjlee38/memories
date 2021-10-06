@@ -7,23 +7,30 @@ class RegexGroup() :
     def __init__(self) :
         self._rgroup = []
     
+    def get(self) :
+        return self._rgroup
+
     def add(self, partition) :
         if not isinstance(partition, dict) :
-            raise "partition should be dict with 4 keys(a, b, c, d)"
-            
-        for i in ['a', 'b', 'c', 'd'] :
-            if i not in partition.keys() :
-                raise "there is no {} key in your partition".format(i)
+            raise Exception("partition should be dict")
+
         self._rgroup.append(self.grouping(partition))
+        return self
         
     def grouping(self, partition) :
         r = partition
-        return {
-            'A' : re.compile(r['a'] + RegexGroup.x + self.ending(r['b'], r['c'], r['d'])),
-            'B' : re.compile(r['b'] + RegexGroup.x + self.ending(r['c'], r['d'])),
-            'C' : re.compile(r['c'] + RegexGroup.x + self.ending(r['d'])),
-            'D' : re.compile(r['d'] + RegexGroup.x + self.ending())
-        }
+        keys = list(r.keys()) # 현상 원인 조치 요망
+        dct = dict()
+
+        for i in range(len(keys)) :
+            dct[r[keys[i]]] = re.compile(
+                r[keys[i]] + \
+                RegexGroup.x + \ 
+                self.ending(*[r[keys[j]] for j in range(i + 1, len(keys))])
+            )
+                            
+                            
+        return dct
 
     def ending(self, *args) :
         return "(" + "|".join(list(args)) + "{}$)".format("|" if len(args) > 0 else "")

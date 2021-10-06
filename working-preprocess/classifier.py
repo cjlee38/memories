@@ -2,16 +2,14 @@ import sys
 import pandas as pd
 
 from abc import *
-import config
+from config import Config
+from vo import ClassifiedVO
+from enums import Status
 
 class AbstractClassifier(ABC) :
 
     @abstractmethod
     def classify(self) :
-        pass
-
-    @abstractmethod
-    def get(self) :
         pass
 
 class LangClassifier(AbstractClassifier) :
@@ -23,9 +21,9 @@ class LangClassifier(AbstractClassifier) :
     
     def validate_patterns(self, patterns) :
         if 'kor' not in patterns.keys() :
-            raise "korean must exists"
+            raise Exception("korean must exists")
         if 'etc' not in patterns.keys() :
-            raise "etc must exists"
+            raise Exception("etc must exists")
         
     def classify(self, descriptions, threshold = -1) :
         if threshold == -1:
@@ -47,85 +45,70 @@ class LangClassifier(AbstractClassifier) :
         if self._patterns['etc'].search(desc) : # be careful on odering
             return 'etc'
         return 'eng'
-    
-    def get(self) :
-        return self._classes
 
 class FrameClassifier(AbstractClassifier) :
-
-    @abstractmethod
-    def to_df(self) :
-        pass
+    pass
 
 class SplitClassifier(FrameClassifier) :
 
     def __init__(self, pattern) :
         self._pattern = pattern
-        self._success = []
-        self._fails = []
 
     def classify(self, descriptions) :
         if isinstance(descriptions, str) :
             return self._classify(descriptions)
+
+        successes = []
+        fails = []
         for desc in descriptions :
             flag, splt = self._classify(desc)
-            to_save = self._success if flag else self._fails
+            to_save = successes if flag else fails
             to_save.append([desc, *splt])
-        return self.get()
+        return ClassifiedVO(Status.OK, {"success", successes, 'fail' : fails})
     
     def _classify(self, desc) :
         splt = [i for i in self._pattern.split(desc) if i != '']
-        return (is_success(splt), splt)
+        splt = splt[:1] + splt[2:] # drop '[C]' column
+        return (self.is_success(splt), splt)
 
-    def is_success(splt) :
-        if len(s) == 5 :
+    def is_success(self, splt) :
+        if len(splt) == 4 :
             return True
         return False
-
-    def get(self) :
-        return {
-            'success' : self._success,
-            'fail' : self._fails
-        }
-
-    def to_df(self) :
-        df = pd.DataFrame(self._success) \
-            .drop([1], axis = 1) # drop '[C]' columns
-        df.columns = Config.CLASSIFIED_COLUMNS
-        return df
 
 class SearchClassifier(FrameClassifier) :
 
     def __init__(self, rgroup) :
         self._rgroup = rgroup
-        self._successes = []
-        self._fails = []
     
     def classify(self, descriptions) :
         if isinstance(descriptions, str) :
             return self._classify(descriptions)
+        
+        successes = []
+        fails = []
         for desc in descriptions :
             try :
                 splt = self._classify(desc)
-                self._successes.append(splt)
+                successes.append(splt)
             except Exception as e :
                 print(e) # todo : to logger except for printing
-                self._fails.append(desc)
-        return self.get()
+                fails.append(desc)
+        return ClassifiedVO(Status.OK, {"success" : successes, "fail " fails})
 
     def _classify(self, desc) :
         x = [desc]
         candidates = []
-        for regex in self._rgroup :
+        for regex in self._rgroup.get() :
              # ex) {'A' : <pattern>, 'B' : <pattern>}
-            splt = [parse(p, desc) for n, p in regex.items()]
-            if isOK(desc, temp) :
-                x.extend(temp)
+            splt = [self.parse(p, desc) for n, p in regex.items()]
+            if self.isOK(desc, splt) :
+                x.extend(splt)
                 return x
             candidates.append(splt)
-        return find_best(x, candidates)
+        return self.find_best(x, candidates)
             
-    def parse(p, desc) :
+    def parse(self, p, desc) :
         r = p.search(desc)
         text = None
         if r :
@@ -135,9 +118,9 @@ class SearchClassifier(FrameClassifier) :
             text = 'notfound'
         return text.strip()
     
-    def isOK(desc, splt) :
+    def isOK(self, desc, splt) :
         # '현상' 이 없는 경우
-        if splt[0] == 'notfound' and '현상' in msg :
+        if splt[0] == 'notfound' and '현상' in desc :
             return False
         # all not found
         if splt[0] == 'notfound' and splt[1] == 'notfound' and splt[2] == 'notfound' and splt[3] == 'notfound' :
@@ -147,7 +130,7 @@ class SearchClassifier(FrameClassifier) :
             return False
         return True
     
-    def find_best(x, candidates) :
+    def find_best(self, x, candidates) :
         def countExists(splt) :
             count = 0
             for s in splt :
@@ -159,21 +142,9 @@ class SearchClassifier(FrameClassifier) :
         count = 0
         best = None
         for cand in candidates[::-1] : # should be reversed
-            cut_cnt = countExists(cand)
-            if count <= cut_cnt :
+            cur_cnt = countExists(cand)
+            if count <= cur_cnt :
                 count = cur_cnt
                 best = cand
         x.extend(best)
         return x
-
-    def get(self) :
-        return {
-            'success' : self._successes,
-            'fail' : self._fails
-        }
-
-    def to_df(self) :
-        df = pd.DataFrame(self._successes, columns = Config.CLASSIFIED_COLUMNS)
-        return df
-
-    
