@@ -1,6 +1,14 @@
 import logging
 import re
 
+class ArgumentParser() :
+
+    def __init__(self) :
+        pass
+
+    def parse(self, argv: list) -> dict:
+        pass
+
 class Config() :
     CLASSIFIED_COLUMNS = ['원문', '현상', '원인', '조치', '요망']
 

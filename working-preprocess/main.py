@@ -2,13 +2,19 @@ import pandas as pd
 import numpy as numpy
 import os
 import re
+import sys
 
 from config import *
+from load import *
 
 if __name__ == "__main__" :
     logger = get_logger()
     logger.info("start")
     
+    # Parse Arguemnts
+    ap = ArgumentParser()
+    ap.parse(sys.argv)
+
     # loading & prep starts
     df = pd.read_csv("./bigtable.csv")
     logger.info("load dataframe")

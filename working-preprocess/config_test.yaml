@@ -1,0 +1,4 @@
+regex:
+  test1: "hello"
+  test2: "\\s+"
+  test3: "\\[\\][]"
